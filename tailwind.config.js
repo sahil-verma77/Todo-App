@@ -1,0 +1,1 @@
+// only for Tailwind suggestions in html file
