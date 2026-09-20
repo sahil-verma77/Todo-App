@@ -4,8 +4,9 @@ const todoList = document.querySelector("#todo-list");
 const formBtn = document.querySelector("#form-btn");
 const taskCount = document.querySelector("#task-count");
 const completeCount = document.querySelector("#complete-count");
+const cancelBtn = document.querySelector("#cancel-btn");
+const emptyMessage = document.querySelector("#empty-message");
 
-// "Go to gym", "Revision Web Dev", "Take Class"
 // {
 //     id: Date.now() + 1,
 //     text: "Go to gym",
@@ -66,7 +67,7 @@ todoForm.addEventListener('submit', (e) => {
         // })
     }
 
-    todoInput.value = "";
+    cancelEdit();
     renderTodo(); // Jab koi naya todo add hoga firse updated todos render ho jayenge
 })
 
@@ -86,18 +87,25 @@ function renderTodo() {
         li.dataset.id = todo.id; // This is original method
 
         li.innerHTML = `
-        <input data-action="toggle" ${todo.isCompleted ? "checked" : ""} type="checkbox" id="check">
-        <p class="flex-1 ${todo.isCompleted ? "line-through text-red-400" : ""}">${todo.text}</p>
-        <div class="flex gap-2">
-            <button data-action="edit">Edit</button>
-            <button data-action="delete">Delete</button>
-        </div>
-        `
-
+                    <input data-action="toggle" ${todo.isCompleted ? "checked" : ""} type="checkbox">
+                    <p class="flex-1 ${todo.isCompleted ? "line-through text-red-400" : ""}">${todo.text}</p>
+                    <div class="flex gap-2">
+                        <button data-action="edit" class="px-2.5 py-1 text-xs font-medium text-amber-600 bg-amber-50 hover:bg-amber-100 rounded transition-colors cursor-pointer">Edit</button>
+                        <button data-action="delete" class="px-2.5 py-1 text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 rounded transition-colors cursor-pointer">Delete</button>
+                    </div>
+                    `
+                    
         todoList.append(li); // here we want exact/valid html code
     })
+    // Empty Message
+    if (todos.length === 0) {
+        emptyMessage.classList.remove("hidden");
+    } else {
+        emptyMessage.classList.add("hidden");
+    }
+
     taskCount.textContent = `TASKS (${todos.length})`;
-    completeCount.textContent = `COMPLETED : ${todos.filter((todo) => todo.isCompleted).length}`
+    completeCount.textContent = `COMPLETED : ${todos.filter((todo) => todo.isCompleted).length}`;
 }
 
 renderTodo(); // Jab first time file execute hogi tab existing todos render ho jayenge
@@ -115,9 +123,11 @@ todoList.addEventListener('click', (e) => {
     const li = e.target.closest('li');
     const id = li.dataset.id;
 
+    if (!li) return;
+
     // console.log(e.target.tagName);
 
-    let action = e.target.dataset.action;
+    const action = e.target.dataset.action;
 
     if (action === "delete") {
         deleteTodo(id);
@@ -148,11 +158,13 @@ function deleteTodo(id) {
             return todo;
         }
     })
+    // todos = todos.filter(todo => todo.id !== Number(id));
+
     localStorage.setItem("todos", JSON.stringify(todos));
     renderTodo();
 }
 function startEdit(id) {
-    editTodoId = id;0
+    editTodoId = id;
 
     let currentTodo = todos.find((todo) => {
         if (todo.id === Number(id)) {
@@ -162,5 +174,25 @@ function startEdit(id) {
 
     todoInput.value = currentTodo.text;
 
+    todoInput.focus();
+
     formBtn.textContent = "Update";
+    formBtn.className = "px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
+    cancelBtn.classList.remove("hidden");
 }
+
+function cancelEdit() {
+    editTodoId = null;
+
+    todoInput.value = "";
+
+    formBtn.textContent = "Add";
+
+    formBtn.className = "px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors cursor-pointer";
+
+    cancelBtn.classList.add("hidden");
+}
+
+cancelBtn.addEventListener("click", () => {
+    cancelEdit();
+});
