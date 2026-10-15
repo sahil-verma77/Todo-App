@@ -5,51 +5,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
-    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="output.css">
 </head>
 
-<body class="bg-slate-100 min-h-screen py-10 px-4">
+<body
+    class="relative min-h-screen overflow-x-hidden bg-gradient-to-br from-blue-200 via-slate-300 to-sky-400 px-4 py-8 sm:py-12">
 
-    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg overflow-hidden border border-slate-200">
+    <main class="relative z-10 mx-auto max-w-xl">
 
-        <div class="bg-indigo-600 px-6 py-5 text-white">
-            <h1 class="text-2xl font-bold tracking-wide">Todo App</h1>
-        </div>
+        <header class="mb-7 text-center">
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+                Todo<span class="text-blue-600">.</span>app
+            </h1>
 
-        <div class="p-5">
-            <form id="todo-form" action="" class="flex flex-col mb-6">
-                <div class="flex gap-5 mb-1">
-                    <input id="todo-input" placeholder="Enter task description..." class="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-slate-800" type="text">
-                    <button id="form-btn" class="px-5 py-2 bg-indigo-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors cursor-pointer">Add</button>
-                </div>
-                <button type="button" id="cancel-btn"
-                    class="hidden self-end text-xs text-slate-500 hover:text-slate-700 underline cursor-pointer">
-                    Cancel Editing
-                </button>
-            </form>
+            <p class="mt-2 text-sm leading-6 text-slate-500 sm:text-base">
+                Keep your tasks organized and get things done.
+            </p>
+        </header>
 
-            <div class="flex items-center justify-between py-2 border-b border-slate-100 mb-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                <p id="task-count">TASKS (0)</p>
-                <p id="complete-count">COMPLETED : 0</p>
-            </div>
 
-            <ul class="py-5 flex flex-col gap-3" id="todo-list">
-                <!-- Todo Template -->
-                <!-- <li data-id="1" class="flex gap-2 border border-slate-300 p-4 rounded-xl">
-                    <input type="checkbox">
-                    <p class="flex-1">Test Todo</p>
-                    <div class="flex gap-2">
-                        <button>Edit</button>
-                        <buttone">Delete</button>
+        <!-- Todo Card -->
+        <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white/30 shadow-sm shadow-slate-200/70">
+
+            <!-- Card Header -->
+            <div class="bg-blue-700 px-5 py-5 text-white sm:px-7">
+                <div class="flex items-center justify-between gap-3">
+                    <div>
+                        <p class="mb-1 text-xs font-semibold uppercase tracking-widest text-blue-200">
+                            My Workspace
+                        </p>
+
+                        <h2 class="text-xl font-semibold tracking-tight sm:text-2xl">
+                            Manage your tasks
+                        </h2>
                     </div>
-                </li> -->
-            </ul>
-            <div id="empty-message" class="hidden text-center pb-8 text-slate-400">
-                <p class="text-sm">No tasks found. Add a task above to get started!</p>
-            </div>
-        </div>
 
-    </div>
+                    <div
+                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/20 bg-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" class="h-6 w-6" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 4 4L19 6" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Card Content -->
+            <div class="p-5 sm:p-7">
+
+                <!-- Add Task Form -->
+                <form id="todo-form" action="" class="mb-7">
+
+                    <label for="todo-input" class="mb-2 block text-sm font-semibold text-slate-700">
+                        Add a new task
+                    </label>
+
+                    <div class="flex flex-col gap-3 sm:flex-row">
+
+                        <input id="todo-input" type="text" placeholder="Enter task description..." autocomplete="off"
+                            class="min-w-0 flex-1 rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100">
+
+                        <button id="form-btn" type="submit"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 active:scale-[0.98] cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" class="h-4 w-4" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m-7-7h14" />
+                            </svg>
+
+                            Add Task
+                        </button>
+
+                    </div>
+
+                    <!-- Cancel Editing Button -->
+                    <button type="button" id="cancel-btn"
+                        class="mt-3 hidden text-sm font-medium text-slate-500 underline decoration-slate-300 underline-offset-4 transition hover:text-blue-700 cursor-pointer">
+                        Cancel editing
+                    </button>
+
+                </form>
+
+
+                <!-- Task Progress -->
+                <section class="mb-7 rounded-xl border border-blue-100 bg-blue-50/70 p-4 sm:p-5"
+                    aria-label="Task completion progress">
+
+                    <div class="mb-3 flex items-center justify-between gap-3">
+
+                        <h3 class="text-sm font-semibold text-slate-800">
+                            Your progress :
+                        </h3>
+
+                        <span id="progress-text" class="text-lg font-bold text-blue-700">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div id="progress-track" class="h-2 overflow-hidden rounded-full bg-blue-100" role="progressbar"
+                        aria-label="Tasks completed" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div id="progress-bar"
+                            class="h-full w-0 rounded-full bg-blue-600 transition-all duration-300 ease-out"></div>
+                    </div>
+
+                </section>
+
+
+                <!-- Task Statistics -->
+                <div class="mb-4 flex items-center justify-between gap-3 py-2 border-b border-slate-500">
+
+                    <div>
+                        <h3 class="text-base font-bold text-slate-900">
+                            Your tasks :
+                        </h3>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-end gap-2">
+
+                        <span id="task-count"
+                            class="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600">
+                            TASKS (0)
+                        </span>
+
+                        <span id="complete-count"
+                            class="rounded-lg border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700">
+                            COMPLETED : 0
+                        </span>
+
+                    </div>
+                </div>
+
+
+                <!-- Todo List -->
+                <ul id="todo-list" class="flex flex-col gap-3 py-2">
+                </ul>
+
+                <!-- Empty State -->
+                <div id="empty-message" class="hidden py-9 text-center">
+
+                    <div
+                        class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" class="h-7 w-7" aria-hidden="true">
+                            <rect x="4" y="4" width="16" height="16" rx="3" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h8M8 8h4M8 16h5" />
+                        </svg>
+
+                    </div>
+
+                    <h3 class="text-sm font-semibold text-slate-800">
+                        Nothing on your list yet
+                    </h3>
+
+                    <p class="mx-auto mt-2 max-w-xs text-sm leading-6 text-slate-500">
+                        Add your first task above and start making progress.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="mt-6 text-center">
+            <div class="mt-5 border-t border-slate-100 pt-4">
+                <p class="text-center text-xs text-slate-600">
+                    Stay focused. Keep moving forward.
+                </p>
+            </div>
+        </footer>
+
+    </main>
 
     <script src="index.js"></script>
 </body>
